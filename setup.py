@@ -36,7 +36,7 @@ setup(
         # 3 - Alpha
         # 4 - Beta
         # 5 - Production/Stable
-        'Development Status :: 4 - Beta',
+        'Development Status :: 3 - Alpha',
 
         # Pick your license as you wish (should match "license" above)
         'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
@@ -49,7 +49,7 @@ setup(
 
 
     # What does your project relate to?
-    keywords='''CKAN auth, oauth, oauth2''',
+    keywords='''CKAN, auth, oauth, oauth2''',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().

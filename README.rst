@@ -32,18 +32,14 @@
 ckanext-oauth2provider
 =============
 
-.. Put a description of your extension here:
-   What does it do? What features does it have?
-   Consider including some screenshots or embedding a video!
+.. Allows CKAN to become an OAuth2 provider.
 
 
 ------------
 Requirements
 ------------
 
-For example, you might want to mention here which versions of CKAN this
-extension works with.
-
+Requires CKAN v2.2 or greater
 
 ------------
 Installation
