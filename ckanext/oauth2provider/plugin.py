@@ -11,10 +11,9 @@ from .model import access_token, client, grant, refresh_token
 log = logging.getLogger(__name__)
 
 class Oauth2ProviderPlugin(plugins.SingletonPlugin):
-	plugins.implements(plugins.IRoutes, inherit=True)
 	plugins.implements(plugins.IConfigurer)
 	plugins.implements(plugins.IConfigurable)
-	plugins.implements(plugins.IAuthFunctions)
+	plugins.implements(plugins.IRoutes)
 
 	# IConfigurable
 	def configure(self, config):
@@ -46,3 +45,14 @@ class Oauth2ProviderPlugin(plugins.SingletonPlugin):
 		# Add a new admin tab to ckan-admin
 		toolkit.add_ckan_admin_tab(config, 'ckanext_oauth2provider',
 								   'OAuth2 Provider')
+
+	def before_map(self, route_map):
+		controller = 'ckanext.oauth2provider.controllers.view:OAuth2ProviderController'
+
+		route_map.connect('/oauth2/authorize', controller=controller,
+			action='authorize')
+
+		return route_map
+
+	def after_map(self, route_map):
+			return route_map
