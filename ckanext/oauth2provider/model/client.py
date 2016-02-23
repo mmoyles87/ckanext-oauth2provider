@@ -30,19 +30,29 @@ vdm.sqlalchemy.make_table_stateful(client_table)
 
 class Client(vdm.sqlalchemy.StatefulObjectMixin, DomainObject):
 	"""
-    Default client implementation.
-    Expected fields:
-    * :attr:`user`
-    * :attr:`name`
-    * :attr:`url`
-    * :attr:`redirect_url`
-    * :attr:`client_id`
-    * :attr:`client_secret`
-    * :attr:`client_type`
-    Clients are outlined in the :rfc:`2` and its subsections.
-    """
+	Default client implementation.
+	Expected fields:
+	* :attr:`user`
+	* :attr:`name`
+	* :attr:`url`
+	* :attr:`redirect_url`
+	* :attr:`client_id`
+	* :attr:`client_secret`
+	* :attr:`client_type`
+	Clients are outlined in the :rfc:`2` and its subsections.
+	"""
 	def __init__(self):
 		return
+
+	@classmethod
+	def get(cls, **kw):
+		query = model.Session.query(cls).autoflush(False)
+		return query.filter_by(**kw).first()
+
+	@classmethod
+	def find(cls, **kw):
+		query = model.Session.query(cls).autoflush(False)
+		return query.filter_by(**kw)
 
 ## --------------------------------------------------------
 ## Mapper Stuff

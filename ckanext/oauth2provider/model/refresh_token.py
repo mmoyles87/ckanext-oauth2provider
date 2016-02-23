@@ -31,18 +31,28 @@ refresh_token_table = Table('oauth2provider_refresh_token', meta.metadata,
 vdm.sqlalchemy.make_table_stateful(refresh_token_table)
 
 class RefreshToken(vdm.sqlalchemy.StatefulObjectMixin, DomainObject):
-    """
-    Default refresh token implementation. A refresh token can be swapped for a
-    new access token when said token expires.
-    Expected fields:
-    * :attr:`user`
-    * :attr:`token`
-    * :attr:`access_token` - :class:`AccessToken`
-    * :attr:`client` - :class:`Client`
-    * :attr:`expired` - ``boolean``
-    """
+	"""
+	Default refresh token implementation. A refresh token can be swapped for a
+	new access token when said token expires.
+	Expected fields:
+	* :attr:`user`
+	* :attr:`token`
+	* :attr:`access_token` - :class:`AccessToken`
+	* :attr:`client` - :class:`Client`
+	* :attr:`expired` - ``boolean``
+	"""
 	def __init__(self):
 		return
+
+	@classmethod
+	def get(cls, **kw):
+		query = model.Session.query(cls).autoflush(False)
+		return query.filter_by(**kw).first()
+
+	@classmethod
+	def find(cls, **kw):
+		query = model.Session.query(cls).autoflush(False)
+		return query.filter_by(**kw)
 
 ## --------------------------------------------------------
 ## Mapper Stuff
