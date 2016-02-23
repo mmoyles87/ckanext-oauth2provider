@@ -15,22 +15,20 @@ log = getLogger(__name__)
 
 refresh_token_table = Table('oauth2provider_refresh_token', meta.metadata,
 	Column('id', types.UnicodeText, primary_key=True, default=_types.make_uuid),
-	Column('user_id', sqlalchemy.types.UnicodeText,
-		sqlalchemy.ForeignKey('user.id', onupdate='CASCADE',
+	Column('user_id', types.UnicodeText,
+		ForeignKey('user.id', onupdate='CASCADE',
 			ondelete='CASCADE')),
 	Column('token', types.UnicodeText, default=long_token),
-	Column('access_token_id', sqlalchemy.types.UnicodeText,
-		sqlalchemy.ForeignKey('oauth2provider_access_token.id', onupdate='CASCADE',
+	Column('access_token_id', types.UnicodeText,
+		ForeignKey('oauth2provider_access_token.id', onupdate='CASCADE',
 			ondelete='CASCADE')),
-	Column('client_id', sqlalchemy.types.UnicodeText,
-		sqlalchemy.ForeignKey('oauth2provider_client.id', onupdate='CASCADE',
+	Column('client_id', types.UnicodeText,
+		ForeignKey('oauth2provider_client.id', onupdate='CASCADE',
 			ondelete='CASCADE')),
 	Column('expired', types.Boolean, default=False)
 )
 
-vdm.sqlalchemy.make_table_stateful(refresh_token_table)
-
-class RefreshToken(vdm.sqlalchemy.StatefulObjectMixin, DomainObject):
+class RefreshToken(DomainObject):
 	"""
 	Default refresh token implementation. A refresh token can be swapped for a
 	new access token when said token expires.

@@ -15,9 +15,9 @@ log = getLogger(__name__)
 
 client_table = Table('oauth2provider_client', meta.metadata,
 	Column('id', types.UnicodeText, primary_key=True, default=_types.make_uuid),
-	Column('user_id', sqlalchemy.types.UnicodeText,
-		sqlalchemy.ForeignKey('user.id', onupdate='CASCADE',
-			ondelete='CASCADE'),
+	Column('user_id', types.UnicodeText,
+		ForeignKey('user.id', onupdate='CASCADE',
+			ondelete='CASCADE')),
 	Column('name', types.UnicodeText, unique=True),
 	Column('url', types.UnicodeText),
 	Column('redirect_uri', types.UnicodeText),
@@ -26,9 +26,7 @@ client_table = Table('oauth2provider_client', meta.metadata,
 	Column('client_type', types.Integer)
 )
 
-vdm.sqlalchemy.make_table_stateful(client_table)
-
-class Client(vdm.sqlalchemy.StatefulObjectMixin, DomainObject):
+class Client(DomainObject):
 	"""
 	Default client implementation.
 	Expected fields:

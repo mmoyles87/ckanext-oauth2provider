@@ -15,11 +15,11 @@ log = getLogger(__name__)
 
 grant_table = Table('oauth2provider_grant', meta.metadata,
 	Column('id', types.UnicodeText, primary_key=True, default=_types.make_uuid),
-	Column('user_id', sqlalchemy.types.UnicodeText,
-		sqlalchemy.ForeignKey('user.id', onupdate='CASCADE',
+	Column('user_id', types.UnicodeText,
+		ForeignKey('user.id', onupdate='CASCADE',
 			ondelete='CASCADE')),
-	Column('client_id', sqlalchemy.types.UnicodeText,
-		sqlalchemy.ForeignKey('oauth2provider_client.id', onupdate='CASCADE',
+	Column('client_id', types.UnicodeText,
+		ForeignKey('oauth2provider_client.id', onupdate='CASCADE',
 			ondelete='CASCADE')),
 	Column('code', types.UnicodeText, default=long_token),
 	Column('expires', types.DateTime),
@@ -27,9 +27,7 @@ grant_table = Table('oauth2provider_grant', meta.metadata,
 	Column('scope', types.Integer, default=0)
 )
 
-vdm.sqlalchemy.make_table_stateful(grant_table)
-
-class Grant(vdm.sqlalchemy.StatefulObjectMixin, DomainObject):
+class Grant(DomainObject):
 	"""
 	Default grant implementation. A grant is a code that can be swapped for an
 	access token. Grants have a limited lifetime as defined by

@@ -13,22 +13,20 @@ from ..utils import long_token
 
 log = getLogger(__name__)
 
-access_token_table = Table('oauth2provider_acess_token', meta.metadata,
+access_token_table = Table('oauth2provider_access_token', meta.metadata,
 	Column('id', types.UnicodeText, primary_key=True, default=_types.make_uuid),
-	Column('user_id', sqlalchemy.types.UnicodeText,
-		sqlalchemy.ForeignKey('user.id', onupdate='CASCADE',
+	Column('user_id', types.UnicodeText,
+		ForeignKey('user.id', onupdate='CASCADE',
 			ondelete='CASCADE')),
 	Column('token', types.UnicodeText, default=long_token),
-	Column('client_id', sqlalchemy.types.UnicodeText,
-		sqlalchemy.ForeignKey('oauth2provider_client.id', onupdate='CASCADE',
+	Column('client_id', types.UnicodeText,
+		ForeignKey('oauth2provider_client.id', onupdate='CASCADE',
 			ondelete='CASCADE')),
 	Column('expires', types.DateTime),
 	Column('scope', types.Integer, default=0)
 )
 
-vdm.sqlalchemy.make_table_stateful(access_token_table)
-
-class AccessToken(vdm.sqlalchemy.StatefulObjectMixin, DomainObject):
+class AccessToken(DomainObject):
 	"""
 	Default access token implementation. An access token is a time limited
 	token to access a user's resources.
