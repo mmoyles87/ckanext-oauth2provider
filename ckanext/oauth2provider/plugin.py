@@ -39,13 +39,17 @@ class Oauth2ProviderPlugin(plugins.SingletonPlugin):
 		tk.add_resource('fanstatic', 'oauth2provider')
 
 		# Add a new admin tab to ckan-admin
-		tk.add_ckan_admin_tab(config, 'ckanext_oauth2provider',
+		tk.add_ckan_admin_tab(config, 'ckanext_oauth2provider_admin',
 								   'OAuth2 Provider')
 
 	# IRoutes
 	def before_map(self, route_map):
 		controller = 'ckanext.oauth2provider.controllers.view:OAuth2ProviderController'
 
+		route_map.connect('ckanext_oauth2provider_admin',
+			'/ckan-admin/oauth2provider',
+			controller=controller,
+			action='admin')
 		route_map.connect('/oauth2/authorize', controller=controller,
 			action='authorize')
 

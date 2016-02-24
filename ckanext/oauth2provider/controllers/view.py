@@ -48,3 +48,6 @@ class OAuth2ProviderController(tk.BaseController):
 
 	def redirect(self):
 		return
+
+	def admin(self, data=None, errors=None, error_summary=None):
+		return tk.render('ckanext/oauth2provider/admin.html')
