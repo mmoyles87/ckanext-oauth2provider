@@ -18,12 +18,27 @@ that are meant for client (as defined in :rfc:`1`) interaction.
 	Errors are outlined in :rfc:`5.2`.
 """
 
-from ckan.lib.base import BaseController, c, g, request, \
-	response, session, render, config, abort, redirect
+from ckan import model
+from ckan.plugins import toolkit as tk
 
-class OAuth2ProviderController(BaseController):
-	def authorize(self):
-		return render('ckanext/oauth2provider/authorize.html')
+c = tk.c
+
+class OAuth2ProviderController(tk.BaseController):
+	def _get_context(self):
+		return {'model': model, 'session': model.Session,
+				'user': c.user, 'auth_user_obj': c.userobj}
+
+	def authorize(self, data=None, errors=None, error_summary=None):
+
+		context = self._get_context()
+
+		try:
+			tk.check_access('oauth2provider_token_create', context)
+		except tk.NotAuthorized:
+			tk.abort(401, tk._('You must be logged in before creating an \
+				authorization token.'))
+
+		return tk.render('ckanext/oauth2provider/authorize.html')
 
 	def authorize_confirm(self):
 		return

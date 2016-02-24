@@ -9,7 +9,7 @@ from ckan.model import meta
 from ckan.model import types as _types
 from ckan.model.domain_object import DomainObject
 
-from ..utils import long_token
+from ckanext.oauth2provider.utils import long_token
 
 log = getLogger(__name__)
 
