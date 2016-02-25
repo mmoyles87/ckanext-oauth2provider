@@ -1,0 +1,49 @@
+{% extends "admin/base.html" %}
+
+{% import 'macros/form.html' as form %}
+
+{% set user = c.user_dict %}
+
+{% block primary_content_inner %}
+<ul class="client-list">
+</ul>
+<form method="POST" id="form-oauth2provider-clients" data-module="basic-form">
+  {{ form.input('name', label=_('Name'), id='field-name', placeholder=_('Application Name'), value=data.name, error=errors.name, classes=['control-full'], is_required=true) }}
+  {{ form.input('url', label=_('URL'), id='field-url', placeholder=_('Application URL Base'), value=data.url, error=errors.url, classes=['control-full'], is_required=true) }}
+  {{ form.input('redirect_uri', label=_('Redirect URI'), id='field-redirect-uri', placeholder=_('URL to redirect clients to after authorization'), value=data.redirect_uri, error=errors.redirect_uri, classes=['control-full'], is_required=true) }}
+  {{ form.select('client_type', label=_('Client Type'), id='field-client-type', options=[{'text':'Public', 'value': 0}, {'text': 'Confidential', 'value': 1}], selected=data.client_type, error=errors.client_type, is_required=true) }}
+  <div class="control-group control-medium">
+    <label class="control-label" for="username">
+      {{ _('User') }}
+    </label>
+    <div class="controls">
+      {% if user %}
+        <input type="hidden" name="username" value="{{ user.name }}" />
+        <input id="username" name="username" type="text" value="{{ user.name }}"
+        disabled="True" class="control-medium">
+      {% else %}
+        <input id="username" type="text" name="username" placeholder="Username"
+        value="" class="control-medium" data-module="autocomplete"
+        data-module-source="/api/2/util/user/autocomplete?q=?">
+      {% endif %}
+    </div>
+  </div>
+  <div class="form-actions">
+    <button class="btn btn-primary" name="save" type="submit">{{ _('Save Client') }}</button>
+  </div>
+</form>
+{% endblock %}
+
+{% block secondary_content %}
+  <div class="module module-narrow module-shallow">
+    <h2 class="module-heading">
+      <i class="icon-info-sign"></i>
+      {{ _('OAuth2') }}
+    </h2>
+    <div class="module-content">
+      {% trans %}
+        <p>Manage oauth2 clients and access tokens.</p>
+      {% endtrans %}
+    </div>
+  </div>
+{% endblock %}

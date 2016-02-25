@@ -1,17 +1,15 @@
 {% extends "admin/base.html" %}
 {% import 'macros/form.html' as form %}
 
+{% set client_controller = 'ckanext.oauth2provider.controllers.client:OAuth2ProviderClientController' %}
+
+{% block page_primary_action %}
+  {% link_for _('Add Client'), controller=client_controller, action='new', class_='btn btn-primary', icon='plus-sign-alt' %}
+{% endblock %}
+
 {% block primary_content_inner %}
 <ul class="client-list">
 </ul>
-<form method="POST" id="form-oauth2provider-clients">
-  <div class="row-fluid">
-    {{ form.input('name', label=_('Name'), id='field-name', placeholder=_('Application Name'), value=data.name, error=errors.namec, lasses=['control-full'], attrs=attrs) }}
-    {{ form.input('url', label=_('URL'), id='field-url', placeholder=_('Application URL Base'), value=data.name, error=errors.namec, lasses=['control-full'], attrs=attrs) }}
-
-  </div>
-  </fieldset>
-</form>
 {% endblock %}
 
 {% block secondary_content %}

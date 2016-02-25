@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from logging import getLogger
 
 from sqlalchemy import types, Column, Table, ForeignKey, and_, UniqueConstraint
@@ -10,6 +12,7 @@ from ckan.model import types as _types
 from ckan.model.domain_object import DomainObject
 
 from ckanext.oauth2provider.utils import short_token, long_token
+from ckanext.oauth2provider import constants
 
 log = getLogger(__name__)
 
@@ -17,7 +20,7 @@ client_table = Table('oauth2provider_client', meta.metadata,
 	Column('id', types.UnicodeText, primary_key=True, default=_types.make_uuid),
 	Column('user_id', types.UnicodeText,
 		ForeignKey('user.id', onupdate='CASCADE',
-			ondelete='CASCADE')),
+			ondelete='CASCADE'), nullable=True),
 	Column('name', types.UnicodeText, unique=True),
 	Column('url', types.UnicodeText),
 	Column('redirect_uri', types.UnicodeText),
@@ -39,8 +42,13 @@ class Client(DomainObject):
 	* :attr:`client_type`
 	Clients are outlined in the :rfc:`2` and its subsections.
 	"""
-	def __init__(self):
-		return
+	def __init__(self, user_id='',
+	 			name='', url='', redirect_uri='',
+				client_type=constants.CONFIDENTIAL):
+		self.user_id = user_id
+		self.name = name
+		self.redirect_uri = redirect_uri
+		self.client_type = client_type
 
 	@classmethod
 	def get(cls, **kw):

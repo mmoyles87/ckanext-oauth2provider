@@ -23,7 +23,7 @@ from ckan.plugins import toolkit as tk
 
 c = tk.c
 
-class OAuth2ProviderController(tk.BaseController):
+class OAuth2ProviderTokenController(tk.BaseController):
 	def _get_context(self):
 		return {'model': model, 'session': model.Session,
 				'user': c.user, 'auth_user_obj': c.userobj}
@@ -49,5 +49,14 @@ class OAuth2ProviderController(tk.BaseController):
 	def redirect(self):
 		return
 
-	def admin(self, data=None, errors=None, error_summary=None):
-		return tk.render('ckanext/oauth2provider/admin.html')
+	def index(self, data=None, errors=None, error_summary=None):
+
+		context = self._get_context()
+
+		data = data or {}
+		errors = errors or {}
+		error_summary = error_summary or {}
+		vars = {'data': data, 'errors': errors,
+				'error_summary': error_summary, 'action': 'index'}
+
+		return tk.render('ckanext/oauth2provider/token/index.html')

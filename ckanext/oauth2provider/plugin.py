@@ -39,18 +39,29 @@ class Oauth2ProviderPlugin(plugins.SingletonPlugin):
 		tk.add_resource('fanstatic', 'oauth2provider')
 
 		# Add a new admin tab to ckan-admin
-		tk.add_ckan_admin_tab(config, 'ckanext_oauth2provider_admin',
-								   'OAuth2 Provider')
+		tk.add_ckan_admin_tab(config, 'oauth2provider_client_list',
+								   'OAuth2 Clients')
+		tk.add_ckan_admin_tab(config, 'oauth2provider_token_list',
+								   'OAuth2 Tokens')
 
 	# IRoutes
 	def before_map(self, route_map):
-		controller = 'ckanext.oauth2provider.controllers.view:OAuth2ProviderController'
+		client_controller = 'ckanext.oauth2provider.controllers.client:OAuth2ProviderClientController'
+		token_controller = 'ckanext.oauth2provider.controllers.access_token:OAuth2ProviderTokenController'
 
-		route_map.connect('ckanext_oauth2provider_admin',
-			'/ckan-admin/oauth2provider',
-			controller=controller,
-			action='admin')
-		route_map.connect('/oauth2/authorize', controller=controller,
+		route_map.connect('oauth2provider_client_list',
+			'/ckan-admin/oauth2provider-clients',
+			controller=client_controller,
+			action='index')
+		route_map.connect('oauth2provider_client_new',
+			'/ckan-admin/oauth2provider-clients/new',
+			controller=client_controller,
+			action='new')
+		route_map.connect('oauth2provider_token_list',
+			'/ckan-admin/oauth2provider-tokens',
+			controller=token_controller,
+			action='index')
+		route_map.connect('/oauth2/authorize', controller=client_controller,
 			action='authorize')
 
 		return route_map
@@ -60,14 +71,16 @@ class Oauth2ProviderPlugin(plugins.SingletonPlugin):
 
 	# IActions
 	def get_actions(self):
-		from ckanext.oauth2provider.logic.action import token_create
+		from ckanext.oauth2provider.logic.action import token_create, client_create
 		return {
-			'oauth2provider_token_create': token_create
+			'oauth2provider_token_create': token_create,
+			'oauth2provider_client_create': client_create,
 		}
 
 	# IAuthFunctions
 	def get_auth_functions(self):
-		from ckanext.oauth2provider.logic.auth import token_create
+		from ckanext.oauth2provider.logic.auth import token_create, client_create
 		return {
-			'oauth2provider_token_create': token_create
+			'oauth2provider_token_create': token_create,
+			'oauth2provider_client_create': client_create,
 		}
