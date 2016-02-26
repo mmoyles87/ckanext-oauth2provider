@@ -22,15 +22,17 @@ class OAuth2ProviderClientController(tk.BaseController):
 
 		if tk.request.method == 'POST':
 			data = dict(tk.request.params)
+			try:
+				data['user_id'] = model.User.by_name(data['username']).id
+			except AttributeError:
+				data['user_id'] = None
+			tk.get_action('oauth2provider_client_create')(context, data)
 
 		data = data or {}
 		errors = errors or {}
 		error_summary = error_summary or {}
 		vars = {'data': data, 'errors': errors,
 				'error_summary': error_summary, 'action': 'new'}
-
-		if 'save' in data:
-			tk.get_action('oauth2provider_client_create')(context, data)
 
 		return tk.render('ckanext/oauth2provider/client/new.html',
 			extra_vars=vars)

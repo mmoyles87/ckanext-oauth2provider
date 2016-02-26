@@ -47,6 +47,7 @@ class Client(DomainObject):
 				client_type=constants.CONFIDENTIAL):
 		self.user_id = user_id
 		self.name = name
+		self.url = url
 		self.redirect_uri = redirect_uri
 		self.client_type = client_type
 
