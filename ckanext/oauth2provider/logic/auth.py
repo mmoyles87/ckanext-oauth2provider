@@ -11,3 +11,11 @@ def token_create(context, data_dict):
 def client_create(context, data_dict):
 	# sysadmins only
 	return {'success': False}
+
+def client_show(context, data_dict):
+	# sysadmins only
+	return {'success': False}
+
+def client_list(context, data_dict):
+	# sysadmins only
+	return {'success': False}

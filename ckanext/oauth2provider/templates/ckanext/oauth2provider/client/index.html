@@ -8,8 +8,27 @@
 {% endblock %}
 
 {% block primary_content_inner %}
-<ul class="client-list">
-</ul>
+  <table class="table table-stripped table-bordered table-hover">
+  	<thead>
+  			<tr>
+  				<th>Name</th>
+  				<th>Url</th>
+  				<th>Actions</th>
+  		</tr>
+  	</thead>
+  	<tbody>
+    {% for client in data.clients %}
+      <tr>
+        <td>{{ client.name }}</td>
+        <td>{{ client.url }}</td>
+        <td>
+          <a class="btn icon-edit btn-normal" href="#"></a>
+          <a class="btn icon-trash btn-danger" onclick="return confirm('Are you sure you want to delete this item?')" href="#"></a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
 
 {% block secondary_content %}

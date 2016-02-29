@@ -71,16 +71,20 @@ class Oauth2ProviderPlugin(plugins.SingletonPlugin):
 
 	# IActions
 	def get_actions(self):
-		from ckanext.oauth2provider.logic.action import token_create, client_create
+		from ckanext.oauth2provider.logic.action import *
 		return {
 			'oauth2provider_token_create': token_create,
 			'oauth2provider_client_create': client_create,
+			'oauth2provider_client_show': client_show,
+			'oauth2provider_client_list': client_list,
 		}
 
 	# IAuthFunctions
 	def get_auth_functions(self):
-		from ckanext.oauth2provider.logic.auth import token_create, client_create
+		from ckanext.oauth2provider.logic.auth import *
 		return {
 			'oauth2provider_token_create': token_create,
 			'oauth2provider_client_create': client_create,
+			'oauth2provider_client_show': client_show,
+			'oauth2provider_client_list': client_list,
 		}

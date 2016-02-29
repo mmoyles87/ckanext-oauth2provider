@@ -25,17 +25,20 @@ def client_create(context, data_dict):
 					url=data_dict['url'],
 					redirect_uri=data_dict['redirect_uri'],
 					client_type=data_dict['client_type'])
-	model.Session.add(client)
-	model.Session.commit()
+
+	client.save()
+
+	return client
 
 def client_show(context, data_dict):
-	model = context['model']
-	user = context['user']
-
-	tk.check_access('oauth2provider_client_create', context, data_dict)
-
+	tk.check_access('oauth2provider_client_show', context, data_dict)
 	id = data_dict.get('id', None)
-	if id:
-		return Client.get(id)
-	else:
-		raise tk.NotFound
+	client = Client.get(id)
+
+	return client
+
+def client_list(context, data_dict):
+	tk.check_access('oauth2provider_client_list', context, data_dict)
+	clients = Client.find().all()
+
+	return clients
