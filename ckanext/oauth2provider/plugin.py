@@ -57,6 +57,10 @@ class Oauth2ProviderPlugin(plugins.SingletonPlugin):
 			'/ckan-admin/oauth2provider-clients/new',
 			controller=client_controller,
 			action='new')
+		route_map.connect('oauth2provider_client_delete',
+			'/ckan-admin/oauth2provider-clients/delete/:id',
+			controller=client_controller,
+			action='delete')
 		route_map.connect('oauth2provider_token_list',
 			'/ckan-admin/oauth2provider-tokens',
 			controller=token_controller,
@@ -77,6 +81,7 @@ class Oauth2ProviderPlugin(plugins.SingletonPlugin):
 			'oauth2provider_client_create': client_create,
 			'oauth2provider_client_show': client_show,
 			'oauth2provider_client_list': client_list,
+			'oauth2provider_client_delete': client_delete,
 		}
 
 	# IAuthFunctions
@@ -87,4 +92,5 @@ class Oauth2ProviderPlugin(plugins.SingletonPlugin):
 			'oauth2provider_client_create': client_create,
 			'oauth2provider_client_show': client_show,
 			'oauth2provider_client_list': client_list,
+			'oauth2provider_client_delete': client_delete,
 		}

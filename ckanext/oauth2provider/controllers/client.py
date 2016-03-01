@@ -39,7 +39,7 @@ class OAuth2ProviderClientController(tk.BaseController):
 			except AttributeError:
 				data['user_id'] = None
 			client = tk.get_action('oauth2provider_client_create')(context, data)
-			tk.redirect_to('oauth2provider_client_list')
+			return tk.redirect_to('oauth2provider_client_list')
 
 		data = data or {}
 		errors = errors or {}
@@ -49,3 +49,16 @@ class OAuth2ProviderClientController(tk.BaseController):
 
 		return tk.render('ckanext/oauth2provider/client/new.html',
 			extra_vars=vars)
+
+	def delete(self, id=None):
+		context = self._get_context()
+
+		try:
+			tk.check_access('oauth2provider_client_delete', context)
+		except tk.NotAuthorized:
+			abort(401, _('Unauthorized to delete an oauth2 client'))
+
+		print id
+
+		tk.get_action('oauth2provider_client_delete')(context, { 'id': id })
+		return tk.redirect_to('oauth2provider_client_list')

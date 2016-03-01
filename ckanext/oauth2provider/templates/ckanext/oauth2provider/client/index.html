@@ -23,7 +23,7 @@
         <td>{{ client.url }}</td>
         <td>
           <a class="btn icon-edit btn-normal" href="#"></a>
-          <a class="btn icon-trash btn-danger" onclick="return confirm('Are you sure you want to delete this item?')" href="#"></a>
+          <a class="btn icon-trash btn-danger" onclick="return confirm('Are you sure you want to delete this item?')" href="{{ h.url_for(controller=client_controller, action='delete', id=client.id) }}"></a>
         </td>
       </tr>
     {% endfor %}

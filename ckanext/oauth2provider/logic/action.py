@@ -27,12 +27,13 @@ def client_create(context, data_dict):
 					client_type=data_dict['client_type'])
 
 	client.save()
+	model.repo.commit()
 
 	return client
 
 def client_show(context, data_dict):
 	tk.check_access('oauth2provider_client_show', context, data_dict)
-	id = data_dict.get('id', None)
+	id = tk.get_or_bust(data_dict, 'id')
 	client = Client.get(id)
 
 	return client
@@ -42,3 +43,14 @@ def client_list(context, data_dict):
 	clients = Client.find().all()
 
 	return clients
+
+def client_delete(context, data_dict):
+	model = context['model']
+	user = context['user']
+
+	tk.check_access('oauth2provider_client_delete', context, data_dict)
+	id = tk.get_or_bust(data_dict, 'id')
+	client = Client.get(id=id)
+
+	client.delete()
+	model.repo.commit()

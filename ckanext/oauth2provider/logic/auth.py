@@ -19,3 +19,7 @@ def client_show(context, data_dict):
 def client_list(context, data_dict):
 	# sysadmins only
 	return {'success': False}
+
+def client_delete(context, data_dict):
+	# sysadmins only
+	return {'success': False}
