@@ -58,7 +58,5 @@ class OAuth2ProviderClientController(tk.BaseController):
 		except tk.NotAuthorized:
 			abort(401, _('Unauthorized to delete an oauth2 client'))
 
-		print id
-
 		tk.get_action('oauth2provider_client_delete')(context, { 'id': id })
 		return tk.redirect_to('oauth2provider_client_list')

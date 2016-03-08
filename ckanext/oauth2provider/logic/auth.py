@@ -8,6 +8,10 @@ log = logging.getLogger(__name__)
 def token_create(context, data_dict):
 	return {'success': True}
 
+@tk.auth_disallow_anonymous_access
+def grant_create(context, data_dict):
+	return {'success': True}
+
 def client_create(context, data_dict):
 	# sysadmins only
 	return {'success': False}

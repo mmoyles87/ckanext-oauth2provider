@@ -9,7 +9,7 @@ from ckan.model import meta
 from ckan.model import types as _types
 from ckan.model.domain_object import DomainObject
 
-from ckanext.oauth2provider.utils import long_token
+from ckanext.oauth2provider.utils import long_token, get_code_expiry
 
 log = getLogger(__name__)
 
@@ -22,9 +22,9 @@ grant_table = Table('oauth2provider_grant', meta.metadata,
 		ForeignKey('oauth2provider_client.id', onupdate='CASCADE',
 			ondelete='CASCADE')),
 	Column('code', types.UnicodeText, default=long_token),
-	Column('expires', types.DateTime),
+	Column('expires', types.DateTime, default=get_code_expiry),
 	Column('redirect_uri', types.UnicodeText, nullable=True),
-	Column('scope', types.Integer, default=0)
+	Column('scope', types.UnicodeText)
 )
 
 class Grant(DomainObject):
@@ -41,8 +41,12 @@ class Grant(DomainObject):
 	* :attr:`redirect_uri`
 	* :attr:`scope`
 	"""
-	def __init__(self):
-		return
+	def __init__(self, user_id='', client_id='', redirect_uri='', scope=''):
+
+		self.user_id = user_id
+		self.client_id = client_id
+		self.redirect_uri = redirect_uri
+		self.scope = scope
 
 	@classmethod
 	def get(cls, **kw):

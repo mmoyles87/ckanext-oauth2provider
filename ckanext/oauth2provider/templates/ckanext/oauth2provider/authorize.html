@@ -7,11 +7,34 @@
 			<div class="box">
 				<section class="module">
 					<header class="module-heading">
-						<h1>Login Using CKAN</h1>
+						<h1>{{data.client_name}}</h1>
 					</header>
 					<div class="module-content">
-						<input type="submit" class="btn btn-danger" value="Cancel" />
-						<input type="submit" class="btn btn-primary" name="authorize" value="Authorize" />
+						<p>{{data.client_name}} would like to access your account with the following permissions:</p>
+						<ul>
+							{% for scope in data.scopes %}
+								{% if scope == "read" %}
+									<li>Read your email address</li>
+									<li>Read your public user profile</li>
+									<li>Read packages and resources you have access to</li>
+								{% else %}
+									<li>Publish packages and resources</li>
+								{% endif %}
+							{% endfor %}
+						</ul>
+						<form method="post" action="{{ h.url_for('oauth2provider_authorize_confirm') }}">
+							<div style="display: none;">
+								<select type="select" name="scope" multiple="multiple">
+								{% for scope in data.scopes %}
+										<option value="{{ scope }}" selected="selected">{{ scope }}</option>
+								{% endfor %}
+								</select>
+							</div>
+							<input type="hidden" name="client_id" value="{{ data.client_id }}" />
+							<input type="hidden" name="redirect_uri" value="{{ data.redirect_uri }}" />
+							<input type="submit" class="btn btn-danger" value="Cancel" />
+							<input type="submit" class="btn btn-primary" name="authorize" value="Authorize" />
+						</form>
 					</div>
 				</section>
 			</div>

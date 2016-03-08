@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 CONFIDENTIAL = 0
 PUBLIC = 1
 
@@ -17,3 +19,11 @@ DEFAULT_SCOPES = (
     (WRITE, 'write'),
     (READ_WRITE, 'read+write'),
 )
+
+
+EXPIRE_DELTA = timedelta(days=365)
+
+# Expiry delta for public clients (which typically have shorter lived tokens)
+EXPIRE_DELTA_PUBLIC = timedelta(days=30)
+
+EXPIRE_CODE_DELTA = timedelta(seconds=10 * 60)
