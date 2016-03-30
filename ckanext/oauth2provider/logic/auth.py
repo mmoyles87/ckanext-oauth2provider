@@ -4,13 +4,16 @@ from ckan.plugins import toolkit as tk
 
 log = logging.getLogger(__name__)
 
-@tk.auth_disallow_anonymous_access
 def token_create(context, data_dict):
-	return {'success': True}
-
-@tk.auth_disallow_anonymous_access
+	if context.get('user'):
+		return {'success': True}
+	else:
+		return {'success': False}
 def grant_create(context, data_dict):
-	return {'success': True}
+	if context.get('user'):
+		return {'success': True}
+	else:
+		return {'success': False}
 
 def client_create(context, data_dict):
 	# sysadmins only

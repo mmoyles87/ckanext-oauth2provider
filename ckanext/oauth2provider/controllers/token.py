@@ -97,7 +97,6 @@ class OAuth2ProviderTokenController(tk.BaseController):
 		return
 
 	def access_token(self):
-
 		print tk.request.params
 
 		return
