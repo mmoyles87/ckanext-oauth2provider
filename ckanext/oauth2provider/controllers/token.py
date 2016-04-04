@@ -38,18 +38,25 @@ class OAuth2ProviderTokenController(tk.BaseController):
 			tk.abort(400, ('"%s" is a required parameter' % key))
 		return param
 
+	def _get_repoze_handler(self, handler_name):
+		'''Returns the URL that repoze.who will respond to and perform a
+		login or logout.'''
+		return getattr(tk.request.environ['repoze.who.plugins']['friendlyform'], handler_name)
+
 	def authorize(self):
 		# Test url
 		# http://localhost:5000/oauth2/authorize?client_id=36c890d9c4342b28fd19&scope=read+write&response_type=token
 		context = self._get_context()
 
+		print tk.request.environ['CKAN_CURRENT_URL']
+
 		try:
 			tk.check_access('oauth2provider_token_create', context)
 		except tk.NotAuthorized:
-			tk.abort(401, tk._('You must be logged in to authorize a grant.'))
+			tk.abort(401)
 
 		client_id = self._get_required_param('client_id')
-		response_type = self._get_required_param('response_type')
+		response_type = tk.request.params.get('redirect_uri', 'code')
 		scopes = self._get_required_param('scope').split(' ')
 		redirect_uri = tk.request.params.get('redirect_uri', '')
 

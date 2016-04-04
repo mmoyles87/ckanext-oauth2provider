@@ -102,6 +102,7 @@ class Oauth2ProviderPlugin(plugins.SingletonPlugin):
 		return {
 			'oauth2provider_token_create': token_create,
 			'oauth2provider_grant_create': grant_create,
+			'oauth2provider_client_create': client_create,
 			'oauth2provider_client_show': client_show,
 			'oauth2provider_client_list': client_list,
 			'oauth2provider_client_delete': client_delete,

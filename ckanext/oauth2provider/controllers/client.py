@@ -2,6 +2,7 @@ from ckan import model
 from ckan.plugins import toolkit as tk
 
 c = tk.c
+_ = tk._
 
 class OAuth2ProviderClientController(tk.BaseController):
 	def _get_context(self):
@@ -14,7 +15,7 @@ class OAuth2ProviderClientController(tk.BaseController):
 		try:
 			tk.check_access('oauth2provider_client_create', context)
 		except tk.NotAuthorized:
-			abort(401, _('Unauthorized to view oauth2 clients'))
+			tk.abort(401, _('Unauthorized to view oauth2 clients'))
 
 		data = data or {}
 		data['clients'] = tk.get_action('oauth2provider_client_list')(context)
@@ -30,7 +31,7 @@ class OAuth2ProviderClientController(tk.BaseController):
 		try:
 			tk.check_access('oauth2provider_client_create', context)
 		except tk.NotAuthorized:
-			abort(401, _('Unauthorized to create an oauth2 client'))
+			tk.abort(401, _('Unauthorized to create an oauth2 client'))
 
 		if tk.request.method == 'POST':
 			data = dict(tk.request.params)
