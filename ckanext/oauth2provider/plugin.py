@@ -78,6 +78,10 @@ class Oauth2ProviderPlugin(plugins.SingletonPlugin):
 			'/oauth2/access_token',
 			controller=token_controller,
 			action='access_token')
+		route_map.connect('oauth2provider_identity',
+			'/oauth2/identity',
+			controller=token_controller,
+			action='identity')
 
 		return route_map
 

@@ -23,7 +23,7 @@ access_token_table = Table('oauth2provider_access_token', meta.metadata,
 		ForeignKey('oauth2provider_client.id', onupdate='CASCADE',
 			ondelete='CASCADE')),
 	Column('expires', types.DateTime),
-	Column('scope', types.Integer, default=0)
+	Column('scope', types.UnicodeText, default=0)
 )
 
 class AccessToken(DomainObject):
@@ -41,8 +41,12 @@ class AccessToken(DomainObject):
 	* :meth:`get_expire_delta` - returns an integer representing seconds to
 		expiry
 	"""
-	def __init__(self):
-		return
+	def __init__(self, user_id='', client_id='', expires='', scope=''):
+
+		self.user_id = user_id
+		self.client_id = client_id
+		self.expires = expires
+		self.scope = scope
 
 	@classmethod
 	def get(cls, **kw):

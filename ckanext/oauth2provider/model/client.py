@@ -24,7 +24,7 @@ client_table = Table('oauth2provider_client', meta.metadata,
 	Column('name', types.UnicodeText, unique=True),
 	Column('url', types.UnicodeText),
 	Column('redirect_uri', types.UnicodeText),
-	Column('client_id', types.UnicodeText, default=short_token),
+	Column('client_id', types.UnicodeText, default=short_token, unique=True),
 	Column('client_secret', types.UnicodeText, default=long_token),
 	Column('client_type', types.Integer)
 )
